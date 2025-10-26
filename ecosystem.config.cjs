@@ -1,7 +1,12 @@
+require('dotenv').config();
 module.exports = {
   apps: [{
     name: "api-express-tienda",
     script: "src/index.js",
+     env: {
+      ...process.env,  // Copia TODAS las variables del .env
+      NODE_ENV: "production",
+    },
      instances: 1,
      exec_mode: "fork",
     error_file: "logs/err.log",
