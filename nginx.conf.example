@@ -1,0 +1,128 @@
+# Configuración de Nginx para API Express Tienda
+
+## Opción 1: Sin dominio (acceso por IP)
+# Ubicación: /etc/nginx/sites-available/api-tienda
+
+server {
+    listen 80;
+    server_name TU_IP_DEL_VPS;
+
+    # Aumentar el tamaño máximo del body (para uploads si es necesario)
+    client_max_body_size 10M;
+
+    location / {
+        proxy_pass http://localhost:3000;
+        proxy_http_version 1.1;
+        
+        # Headers de proxy
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+        
+        # Timeouts
+        proxy_connect_timeout 60s;
+        proxy_send_timeout 60s;
+        proxy_read_timeout 60s;
+    }
+
+    # Logs
+    access_log /var/log/nginx/api-tienda-access.log;
+    error_log /var/log/nginx/api-tienda-error.log;
+}
+
+## Opción 2: Con dominio
+# Ubicación: /etc/nginx/sites-available/api-tienda
+
+server {
+    listen 80;
+    server_name api.tudominio.com;
+
+    client_max_body_size 10M;
+
+    location / {
+        proxy_pass http://localhost:3000;
+        proxy_http_version 1.1;
+        
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+        
+        proxy_connect_timeout 60s;
+        proxy_send_timeout 60s;
+        proxy_read_timeout 60s;
+    }
+
+    access_log /var/log/nginx/api-tienda-access.log;
+    error_log /var/log/nginx/api-tienda-error.log;
+}
+
+## Opción 3: Con SSL (después de ejecutar certbot)
+# Certbot modificará automáticamente este archivo
+
+server {
+    server_name api.tudominio.com;
+
+    client_max_body_size 10M;
+
+    location / {
+        proxy_pass http://localhost:3000;
+        proxy_http_version 1.1;
+        
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+        
+        proxy_connect_timeout 60s;
+        proxy_send_timeout 60s;
+        proxy_read_timeout 60s;
+    }
+
+    access_log /var/log/nginx/api-tienda-access.log;
+    error_log /var/log/nginx/api-tienda-error.log;
+
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/api.tudominio.com/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/api.tudominio.com/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+}
+
+server {
+    if ($host = api.tudominio.com) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+    listen 80;
+    server_name api.tudominio.com;
+    return 404; # managed by Certbot
+}
+
+## COMANDOS PARA CONFIGURAR:
+
+# 1. Crear el archivo
+# sudo nano /etc/nginx/sites-available/api-tienda
+
+# 2. Habilitar el sitio
+# sudo ln -s /etc/nginx/sites-available/api-tienda /etc/nginx/sites-enabled/
+
+# 3. Verificar configuración
+# sudo nginx -t
+
+# 4. Reiniciar Nginx
+# sudo systemctl restart nginx
+
+# 5. Ver logs en tiempo real
+# sudo tail -f /var/log/nginx/api-tienda-access.log
+# sudo tail -f /var/log/nginx/api-tienda-error.log
