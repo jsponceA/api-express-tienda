@@ -2,11 +2,11 @@ module.exports = {
   apps: [{
     name: "api-express-tienda",
     script: "src/index.js",
+    node_args: "--env-file=.env",
     instances: 2,
     exec_mode: "cluster",
     env: {
       NODE_ENV: "production",
-      PORT: 3003,
     },
     error_file: "logs/err.log",
     out_file: "logs/out.log",
