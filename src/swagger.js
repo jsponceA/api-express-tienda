@@ -1,6 +1,33 @@
 import swaggerJsdoc from "swagger-jsdoc";
 import { env } from "./env.js";
 
+// Configurar servidores según el entorno
+const servers = [];
+
+// Servidor de desarrollo
+if (env.NODE_ENV === "development") {
+  servers.push({
+    url: `http://localhost:${env.PORT}`,
+    description: "Development server",
+  });
+}
+
+// Servidor de producción
+if (env.NODE_ENV === "production") {
+  servers.push({
+    url: env.API_URL || `http://localhost:${env.PORT}`,
+    description: "Production server",
+  });
+}
+
+// Si no hay servidores definidos, usar localhost por defecto
+if (servers.length === 0) {
+  servers.push({
+    url: `http://localhost:${env.PORT}`,
+    description: "Local server",
+  });
+}
+
 const options = {
   definition: {
     openapi: "3.0.0",
@@ -12,12 +39,7 @@ const options = {
         name: "API Support",
       },
     },
-    servers: [
-      {
-        url: `http://localhost:${env.PORT}`,
-        description: "Development server",
-      },
-    ],
+    servers,
     components: {
       schemas: {
         Product: {
