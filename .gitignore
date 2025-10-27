@@ -71,3 +71,7 @@ typings/
 
 # Serverless directories
 .serverless
+
+# ecosystem files
+ecosystem.config.js
+ecosystem.config.cjs
