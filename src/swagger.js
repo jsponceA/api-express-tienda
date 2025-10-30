@@ -262,6 +262,259 @@ const options = {
             },
           },
         },
+        Student: {
+          type: "object",
+          required: ["studentCode", "firstName", "lastName", "email"],
+          properties: {
+            id: {
+              type: "integer",
+              description: "ID autogenerado del estudiante",
+              example: 1,
+            },
+            studentCode: {
+              type: "string",
+              description: "Código único del estudiante",
+              example: "EST2024001",
+            },
+            firstName: {
+              type: "string",
+              description: "Nombre del estudiante",
+              example: "Juan",
+            },
+            lastName: {
+              type: "string",
+              description: "Apellido del estudiante",
+              example: "Pérez",
+            },
+            email: {
+              type: "string",
+              format: "email",
+              description: "Email del estudiante",
+              example: "juan.perez@example.com",
+            },
+            phone: {
+              type: "string",
+              description: "Teléfono del estudiante",
+              example: "+593 99 123 4567",
+            },
+            dateOfBirth: {
+              type: "string",
+              format: "date",
+              description: "Fecha de nacimiento",
+              example: "2000-05-15",
+            },
+            address: {
+              type: "string",
+              description: "Dirección del estudiante",
+              example: "Av. Principal 123",
+            },
+            enrollmentDate: {
+              type: "string",
+              format: "date",
+              description: "Fecha de inscripción",
+              example: "2024-01-15",
+            },
+            status: {
+              type: "string",
+              enum: ["active", "inactive", "graduated", "suspended"],
+              description: "Estado del estudiante",
+              example: "active",
+            },
+            emergencyContact: {
+              type: "string",
+              description: "Contacto de emergencia",
+              example: "María Pérez",
+            },
+            emergencyPhone: {
+              type: "string",
+              description: "Teléfono de emergencia",
+              example: "+593 99 987 6543",
+            },
+            createdAt: {
+              type: "string",
+              format: "date-time",
+            },
+            updatedAt: {
+              type: "string",
+              format: "date-time",
+            },
+          },
+        },
+        StudentInput: {
+          type: "object",
+          required: ["studentCode", "firstName", "lastName", "email"],
+          properties: {
+            studentCode: {
+              type: "string",
+              example: "EST2024001",
+            },
+            firstName: {
+              type: "string",
+              example: "Juan",
+            },
+            lastName: {
+              type: "string",
+              example: "Pérez",
+            },
+            email: {
+              type: "string",
+              format: "email",
+              example: "juan.perez@example.com",
+            },
+            phone: {
+              type: "string",
+              example: "+593 99 123 4567",
+            },
+            dateOfBirth: {
+              type: "string",
+              format: "date",
+              example: "2000-05-15",
+            },
+            address: {
+              type: "string",
+              example: "Av. Principal 123",
+            },
+            enrollmentDate: {
+              type: "string",
+              format: "date",
+              example: "2024-01-15",
+            },
+            status: {
+              type: "string",
+              enum: ["active", "inactive", "graduated", "suspended"],
+              example: "active",
+            },
+            emergencyContact: {
+              type: "string",
+              example: "María Pérez",
+            },
+            emergencyPhone: {
+              type: "string",
+              example: "+593 99 987 6543",
+            },
+          },
+        },
+        Enrollment: {
+          type: "object",
+          required: ["studentId", "course", "semester", "academicYear"],
+          properties: {
+            id: {
+              type: "integer",
+              description: "ID autogenerado de la matrícula",
+              example: 1,
+            },
+            studentId: {
+              type: "integer",
+              description: "ID del estudiante",
+              example: 1,
+            },
+            course: {
+              type: "string",
+              description: "Nombre del curso",
+              example: "Matemáticas Avanzadas",
+            },
+            courseCode: {
+              type: "string",
+              description: "Código del curso",
+              example: "MAT301",
+            },
+            semester: {
+              type: "string",
+              description: "Semestre",
+              example: "2024-1",
+            },
+            academicYear: {
+              type: "string",
+              description: "Año académico",
+              example: "2024",
+            },
+            enrollmentDate: {
+              type: "string",
+              format: "date",
+              description: "Fecha de matrícula",
+              example: "2024-01-20",
+            },
+            status: {
+              type: "string",
+              enum: ["enrolled", "completed", "dropped", "failed", "in-progress"],
+              description: "Estado de la matrícula",
+              example: "enrolled",
+            },
+            grade: {
+              type: "number",
+              format: "decimal",
+              description: "Calificación (0-100)",
+              example: 85.5,
+            },
+            credits: {
+              type: "integer",
+              description: "Créditos del curso",
+              example: 4,
+            },
+            notes: {
+              type: "string",
+              description: "Notas adicionales",
+              example: "Estudiante con buen desempeño",
+            },
+            createdAt: {
+              type: "string",
+              format: "date-time",
+            },
+            updatedAt: {
+              type: "string",
+              format: "date-time",
+            },
+          },
+        },
+        EnrollmentInput: {
+          type: "object",
+          required: ["studentId", "course", "semester", "academicYear"],
+          properties: {
+            studentId: {
+              type: "integer",
+              example: 1,
+            },
+            course: {
+              type: "string",
+              example: "Matemáticas Avanzadas",
+            },
+            courseCode: {
+              type: "string",
+              example: "MAT301",
+            },
+            semester: {
+              type: "string",
+              example: "2024-1",
+            },
+            academicYear: {
+              type: "string",
+              example: "2024",
+            },
+            enrollmentDate: {
+              type: "string",
+              format: "date",
+              example: "2024-01-20",
+            },
+            status: {
+              type: "string",
+              enum: ["enrolled", "completed", "dropped", "failed", "in-progress"],
+              example: "enrolled",
+            },
+            grade: {
+              type: "number",
+              format: "decimal",
+              example: 85.5,
+            },
+            credits: {
+              type: "integer",
+              example: 4,
+            },
+            notes: {
+              type: "string",
+              example: "Estudiante con buen desempeño",
+            },
+          },
+        },
         Error: {
           type: "object",
           properties: {

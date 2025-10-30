@@ -1,7 +1,9 @@
 import express from "express";
 
-import books from "./books.js";
 import products from "./products.js";
+import books from "./books.js";
+import students from "./students.js";
+import enrollments from "./enrollments.js";
 
 const router = express.Router();
 
@@ -14,5 +16,7 @@ router.get("/", (req, res) => {
 // router.use("/emojis", emojis);
 router.use("/products", products);
 router.use("/books", books);
+router.use("/students", students);
+router.use("/enrollments", enrollments);
 
 export default router;
