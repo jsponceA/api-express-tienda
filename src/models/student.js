@@ -66,6 +66,10 @@ const Student = sequelize.define("Student", {
     type: DataTypes.STRING(20),
     allowNull: true,
   },
+  image: {
+    type: DataTypes.STRING(500),
+    allowNull: true,
+  },
 }, {
   tableName: "students",
   timestamps: true,

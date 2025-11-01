@@ -16,6 +16,9 @@ app.use(helmet());
 app.use(cors());
 app.use(express.json());
 
+// Servir archivos estáticos (imágenes subidas)
+app.use("/uploads", express.static("uploads"));
+
 app.get("/", (req, res) => {
   res.json({
     message: "PRIVATE API - Express Tienda",

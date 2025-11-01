@@ -330,6 +330,12 @@ const options = {
               description: "Teléfono de emergencia",
               example: "+593 99 987 6543",
             },
+            image: {
+              type: "string",
+              format: "uri",
+              description: "URL de la imagen del estudiante",
+              example: "https://example.com/images/students/juan-perez.jpg",
+            },
             createdAt: {
               type: "string",
               format: "date-time",
@@ -391,6 +397,11 @@ const options = {
             emergencyPhone: {
               type: "string",
               example: "+593 99 987 6543",
+            },
+            image: {
+              type: "string",
+              format: "uri",
+              example: "https://example.com/images/students/juan-perez.jpg",
             },
           },
         },

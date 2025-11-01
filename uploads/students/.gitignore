@@ -1,0 +1,7 @@
+# Directorio para imágenes de estudiantes
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.webp
+!.gitkeep

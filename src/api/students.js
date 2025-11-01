@@ -1,5 +1,6 @@
 import express from "express";
 import * as studentsController from "../controllers/students.controller.js";
+import { uploadStudentImage } from "../config/multer.js";
 
 const router = express.Router();
 
@@ -55,9 +56,55 @@ router.get("/:id", studentsController.getStudentById);
  *     requestBody:
  *       required: true
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
- *             $ref: '#/components/schemas/StudentInput'
+ *             type: object
+ *             required:
+ *               - studentCode
+ *               - firstName
+ *               - lastName
+ *               - email
+ *             properties:
+ *               studentCode:
+ *                 type: string
+ *                 example: "EST2024001"
+ *               firstName:
+ *                 type: string
+ *                 example: "Juan"
+ *               lastName:
+ *                 type: string
+ *                 example: "Pérez"
+ *               email:
+ *                 type: string
+ *                 format: email
+ *                 example: "juan.perez@example.com"
+ *               phone:
+ *                 type: string
+ *                 example: "+593 99 123 4567"
+ *               dateOfBirth:
+ *                 type: string
+ *                 format: date
+ *                 example: "2000-05-15"
+ *               address:
+ *                 type: string
+ *                 example: "Av. Principal 123"
+ *               enrollmentDate:
+ *                 type: string
+ *                 format: date
+ *               status:
+ *                 type: string
+ *                 enum: [active, inactive, graduated, suspended]
+ *                 example: "active"
+ *               emergencyContact:
+ *                 type: string
+ *                 example: "María Pérez"
+ *               emergencyPhone:
+ *                 type: string
+ *                 example: "+593 99 987 6543"
+ *               image:
+ *                 type: string
+ *                 format: binary
+ *                 description: Imagen del estudiante (jpeg, jpg, png, gif, webp - max 5MB)
  *     responses:
  *       201:
  *         description: Estudiante creado exitosamente
@@ -70,7 +117,7 @@ router.get("/:id", studentsController.getStudentById);
  *       409:
  *         description: Código o email duplicado
  */
-router.post("/", studentsController.createStudent);
+router.post("/", uploadStudentImage.single("image"), studentsController.createStudent);
 
 /**
  * @swagger
@@ -87,16 +134,47 @@ router.post("/", studentsController.createStudent);
  *     requestBody:
  *       required: true
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
- *             $ref: '#/components/schemas/StudentInput'
+ *             type: object
+ *             properties:
+ *               studentCode:
+ *                 type: string
+ *               firstName:
+ *                 type: string
+ *               lastName:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *                 format: email
+ *               phone:
+ *                 type: string
+ *               dateOfBirth:
+ *                 type: string
+ *                 format: date
+ *               address:
+ *                 type: string
+ *               enrollmentDate:
+ *                 type: string
+ *                 format: date
+ *               status:
+ *                 type: string
+ *                 enum: [active, inactive, graduated, suspended]
+ *               emergencyContact:
+ *                 type: string
+ *               emergencyPhone:
+ *                 type: string
+ *               image:
+ *                 type: string
+ *                 format: binary
+ *                 description: Nueva imagen del estudiante (opcional)
  *     responses:
  *       200:
  *         description: Estudiante actualizado
  *       404:
  *         description: Estudiante no encontrado
  */
-router.put("/:id", studentsController.updateStudent);
+router.put("/:id", uploadStudentImage.single("image"), studentsController.updateStudent);
 
 /**
  * @swagger

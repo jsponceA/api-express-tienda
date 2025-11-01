@@ -14,6 +14,7 @@ const studentSchema = z.object({
   status: z.enum(["active", "inactive", "graduated", "suspended"]).optional(),
   emergencyContact: z.string().optional(),
   emergencyPhone: z.string().optional(),
+  image: z.string().optional(), // Se maneja con req.file
 });
 
 /**
@@ -71,6 +72,12 @@ export async function createStudent(req, res, next) {
     }
 
     const payload = parse.data;
+    
+    // Si se subió una imagen, agregar la ruta
+    if (req.file) {
+      payload.image = `/uploads/students/${req.file.filename}`;
+    }
+
     const student = await Student.create(payload);
     res.status(201).json(student);
   }
@@ -104,6 +111,12 @@ export async function updateStudent(req, res, next) {
     }
 
     const payload = parse.data;
+    
+    // Si se subió una nueva imagen, actualizar la ruta
+    if (req.file) {
+      payload.image = `/uploads/students/${req.file.filename}`;
+    }
+
     await student.update(payload);
     res.json(student);
   }
