@@ -6,6 +6,7 @@ const productSchema = z.object({
   price: z.number().nonnegative(),
   description: z.string().optional(),
   inStock: z.boolean().optional(),
+  image: z.string().optional(),
 });
 
 /**
@@ -52,11 +53,18 @@ export async function createProduct(req, res, next) {
     }
 
     const payload = parse.data;
+    
+    // Si se subió una imagen, agregar la ruta
+    if (req.file) {
+      payload.image = `/uploads/products/${req.file.filename}`;
+    }
+    
     const product = await Product.create({
       name: payload.name,
       price: payload.price,
       description: payload.description,
       inStock: payload.inStock ?? true,
+      image: payload.image,
     });
     res.status(201).json(product);
   }
@@ -85,11 +93,18 @@ export async function updateProduct(req, res, next) {
     }
 
     const payload = parse.data;
+    
+    // Si se subió una imagen, agregar la ruta
+    if (req.file) {
+      payload.image = `/uploads/products/${req.file.filename}`;
+    }
+    
     await product.update({
       name: payload.name,
       price: payload.price,
       description: payload.description,
       inStock: payload.inStock,
+      image: payload.image,
     });
     res.json(product);
   }

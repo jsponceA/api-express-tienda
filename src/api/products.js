@@ -1,5 +1,6 @@
 import express from "express";
 import * as productsController from "../controllers/products.controller.js";
+import { uploadProductImage } from "../config/multer.js";
 
 const router = express.Router();
 
@@ -79,7 +80,7 @@ router.get("/:id", productsController.getProductById);
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.post("/", productsController.createProduct);
+router.post("/", uploadProductImage.single("image"), productsController.createProduct);
 
 /**
  * @swagger
@@ -121,7 +122,7 @@ router.post("/", productsController.createProduct);
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.put("/:id", productsController.updateProduct);
+router.put("/:id", uploadProductImage.single("image"), productsController.updateProduct);
 
 /**
  * @swagger
