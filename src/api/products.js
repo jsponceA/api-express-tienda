@@ -63,9 +63,30 @@ router.get("/:id", productsController.getProductById);
  *     requestBody:
  *       required: true
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
- *             $ref: '#/components/schemas/ProductInput'
+ *             type: object
+ *             required:
+ *               - name
+ *               - price
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 description: Nombre del producto
+ *               price:
+ *                 type: number
+ *                 format: float
+ *                 description: Precio del producto
+ *               description:
+ *                 type: string
+ *                 description: Descripción del producto
+ *               inStock:
+ *                 type: boolean
+ *                 description: Si el producto está en stock
+ *               image:
+ *                 type: string
+ *                 format: binary
+ *                 description: Imagen del producto
  *     responses:
  *       201:
  *         description: Producto creado exitosamente
@@ -99,9 +120,27 @@ router.post("/", uploadProductImage.single("image"), productsController.createPr
  *     requestBody:
  *       required: true
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
- *             $ref: '#/components/schemas/ProductInput'
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 description: Nombre del producto
+ *               price:
+ *                 type: number
+ *                 format: float
+ *                 description: Precio del producto
+ *               description:
+ *                 type: string
+ *                 description: Descripción del producto
+ *               inStock:
+ *                 type: boolean
+ *                 description: Si el producto está en stock
+ *               image:
+ *                 type: string
+ *                 format: binary
+ *                 description: Imagen del producto
  *     responses:
  *       200:
  *         description: Producto actualizado exitosamente
